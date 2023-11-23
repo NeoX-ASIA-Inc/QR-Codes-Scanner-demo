@@ -1,2 +1,16 @@
-# QR-Codes-Scanner-demo
-Demo project to scan QR Codes
+# ユーザーストーリー:
+
+- このアプリは✅のアイコンが２つあります。無効化ボタンが１つあります。
+- アプリを開けて、QRコードスキャンを選びます。
+- デフォルト色はグレーです。QRコードをスキャンすると、アイコン#1の色は赤くなり、アイコン#2の色は青くなります。
+- ２つのQRコードは青いや赤くなったとき、ボタンが有効化されます。
+- ボタンをクリックして、Youtubeビデオが開けます。
+- アプリを閉じるとき、全てのアイコンは色がグレーにリセットします。
+
+# QRコードサンプル
+
+- 赤い
+![red](https://github.com/NeoX-ASIA-Inc/QR-Codes-Scanner-demo/assets/22587774/f88c73ea-059e-4987-bf45-96210e24ff4c)
+
+- 青い
+![blue](https://github.com/NeoX-ASIA-Inc/QR-Codes-Scanner-demo/assets/22587774/064e1401-a7bf-4413-8d5e-726b02d1a52d)
