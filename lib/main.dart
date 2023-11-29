@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:qr_codes_scanner_sample/models/icon_state_info.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,9 +34,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _IconState extends State<HomePage> {
-  late AppState appState;
-  bool isIcon1Red = false;
-  bool isIcon2Blue = false;
+  late Icon_State_Info icon1State;
+  late Icon_State_Info icon2State;
+  late bool isButtonEnable;
 
   //Hàm khởi tạo trạng thái của ứng dụng và được gọi duy nhất 1 lần
   //Sau này muốn thay đổi, cập nhập trạng thái của ứng dụng thì dùng hàm setState()
@@ -55,24 +54,22 @@ class _IconState extends State<HomePage> {
     try {
       // Đọc dữ liệu từ tệp JSON
       String jsonString =
-          await rootBundle.loadString('assets/images/files/app_state.json');
+          await rootBundle.loadString('assets/json/app_state.json');
 
       Map<String, dynamic> jsonData = jsonDecode(jsonString);
 
       // Tạo một đối tượng AppState từ dữ liệu JSON
       setState(() {
-        appState = AppState.fromJson(jsonData);
-        isIcon1Red = appState.isIcon1Red;
-        isIcon2Blue = appState.isIcon2Blue;
+        icon1State = Icon_State_Info.fromJson(jsonData[1]);
+        icon2State = Icon_State_Info.fromJson(jsonData[2]);
+        isButtonEnable = false;
       });
     } catch (e) {
       // Nếu có lỗi, sử dụng giá trị mặc định
       setState(() {
-        appState = AppState(
-          isIcon1Red: false,
-          isIcon2Blue: false,
-          isButtonEnabled: false,
-        );
+        icon1State = Icon_State_Info(id: 1, name: '', scanned_status: false);
+        icon2State = Icon_State_Info(id: 2, name: '', scanned_status: false);
+        isButtonEnable = false;
       });
       print('Error reading JSON file: $e');
     }
@@ -89,55 +86,69 @@ class _IconState extends State<HomePage> {
           //Thực hiện chuyển màn hình qua màn hình scan code
           //Nhận giá trị trả về returedValue khi mà màn hình QRScan pop()
           ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.cyan),
               onPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => QRScan(),
                     )).then((returedValue) {
+                  //Ham khoi tao lai trang thai ung dung
                   setState(() {
                     if (returedValue.toString() == 'red') {
-                      isIcon1Red = true;
+                      icon1State.scanned_status = true;
                     }
                     if (returedValue.toString() == 'blue') {
-                      isIcon2Blue = true;
+                      icon2State.scanned_status = true;
+                    }
+
+                    if (icon1State.scanned_status &&
+                        icon2State.scanned_status) {
+                      isButtonEnable = true;
                     }
                   });
                 });
                 print("Scan button Pressed!");
               },
               child: Text('Scan QR')),
+          SizedBox(
+            height: 50.0,
+          ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              isIcon1Red == true
-                  ? Icon(Icons.check_circle, color: Colors.red, size: 50.0)
+              icon1State.scanned_status == true
+                  ? Icon(Icons.check_circle, color: Colors.red, size: 150.0)
                   : Icon(Icons.check_circle_outline,
-                      color: Colors.grey, size: 50.0),
+                      color: Colors.grey, size: 150.0),
               SizedBox(
-                height: 20.0,
+                height: 100.0,
               ),
-              isIcon2Blue == true
-                  ? Icon(Icons.check_circle, color: Colors.blue, size: 50.0)
+              icon2State.scanned_status == true
+                  ? Icon(Icons.check_circle, color: Colors.blue, size: 150.0)
                   : Icon(Icons.check_circle_outline,
-                      color: Colors.grey, size: 50.0),
+                      color: Colors.grey, size: 150.0),
             ],
           ),
+
+          SizedBox(
+            height: 50.0,
+          ),
           ElevatedButton(
-              onPressed: () {
-                if (isIcon1Red && isIcon2Blue) {
-                  _launchYouTubeLink();
-                } else {
-                  print('Khi 2 icon chuyen mau thi moi vao duoc link');
-                }
-              },
+              style: ElevatedButton.styleFrom(primary: Colors.green),
+              onPressed: isButtonEnable
+                  ? () {
+                      _launchYouTubeLink();
+                    }
+                  : null,
               child: Text("Youtube Link!"))
         ])));
   }
 
   _launchYouTubeLink() async {
     const url =
-        'https://www.youtube.com'; // Đổi URL này thành đường link YouTube
+        'https://youtu.be/pvGNVqu2Lwg?si=NaNgC0-oHK8ORAOk'; // Đổi URL này thành đường link YouTube
     if (await canLaunch(url)) {
       await launch(url);
     } else {

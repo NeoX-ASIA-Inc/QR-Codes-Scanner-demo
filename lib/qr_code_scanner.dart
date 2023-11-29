@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -17,17 +19,16 @@ class _QRScanState extends State<QRScan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
+        body: Stack(
       children: [
-        Expanded(
-          flex: 5,
-          child: QRView(key: qrKey, onQRViewCreated: _onQRViewCreated),
-        ),
-        Expanded(
-          child: Center(
-            child: (result != null)
-                ? Text('Data: ${result!.code}')
-                : Text('Scan code'),
+        QRView(key: qrKey, onQRViewCreated: _onQRViewCreated),
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.white, width: 2.0)),
           ),
         )
       ],

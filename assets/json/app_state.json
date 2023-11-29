@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "Redmark",
+    "scanned_status": false
+  },
+  {
+    "id": 2,
+    "name": "Bluemark",
+    "scanned_status": false
+  }
+]

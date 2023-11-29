@@ -1,27 +1,29 @@
-class AppState {
-  bool isIcon1Red;
-  bool isIcon2Blue;
-  bool isButtonEnabled;
+//Class AppState dung để lưu trạng thái của ứng dụng
+//Ở đây trạng thái là trại thái của icon 1, 2 và button.
+class Icon_State_Info {
+  int id;
+  String name;
+  bool scanned_status;
 
-  AppState({
-    required this.isIcon1Red,
-    required this.isIcon2Blue,
-    required this.isButtonEnabled,
+  Icon_State_Info({
+    required this.id,
+    required this.name,
+    required this.scanned_status,
   });
 
-  factory AppState.fromJson(Map<String, dynamic> json) {
-    return AppState(
-      isIcon1Red: json['isIcon1Red'] ?? false,
-      isIcon2Blue: json['isIcon2Blue'] ?? false,
-      isButtonEnabled: json['isButtonEnabled'] ?? false,
+  factory Icon_State_Info.fromJson(Map<String, dynamic> json) {
+    return Icon_State_Info(
+      id: json['id'] ?? false,
+      name: json['name'] ?? false,
+      scanned_status: json['scanned_status'] ?? false,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'isIcon1Red': isIcon1Red,
-      'isIcon2Blue': isIcon2Blue,
-      'isButtonEnabled': isButtonEnabled,
+      'id': id,
+      'name': name,
+      'scanned_status': scanned_status,
     };
   }
 }
