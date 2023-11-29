@@ -1,16 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr_codes_scanner_sample/models/icon_state_info.dart';
 import 'package:qr_codes_scanner_sample/qr_code_scanner.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
-import 'package:path_provider/path_provider.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
@@ -143,7 +137,7 @@ class _IconState extends State<HomePage> {
 
   _launchYouTubeLink() async {
     const url =
-        'https://www.youtube.com'; // Đổi URL này thành đường link YouTube bạn muốn mở
+        'https://www.youtube.com'; // Đổi URL này thành đường link YouTube
     if (await canLaunch(url)) {
       await launch(url);
     } else {
